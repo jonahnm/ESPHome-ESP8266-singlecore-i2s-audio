@@ -8,7 +8,7 @@ from esphome.const import CONF_ID, CONF_MODE
 from esphome.core import CORE
 
 CODEOWNERS = ["@winteris"]
-DEPENDENCIES = ["esp32"]
+DEPENDENCIES = [""]
 
 i2s_audio_ns = cg.esphome_ns.namespace("i2s_audio")
 
