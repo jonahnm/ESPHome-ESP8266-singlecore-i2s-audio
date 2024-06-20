@@ -11,7 +11,7 @@
 #include "AudioFileSourceBuffer.h"
 #include "AudioFileSourcePROGMEM.h"
 #include "AudioFileSourceHTTPStream.h"
-#include "AudioOutputI2S.h"
+#include "AudioOutputI2SNoDAC.h"
 
 #include "esphome/core/log.h"
 
