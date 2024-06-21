@@ -130,6 +130,9 @@ void I2SAudioMediaPlayer::stopPlaying() {
 
 void I2SAudioMediaPlayer::playaudio(const char* source)  {
     stopPlaying();
+    if(out != nullptr) {
+      ESP_LOGCONFIG(TAG,"Out not nullptr!");
+    }
     ESP_LOGCONFIG(TAG, "Start Playing...");
     this->state = media_player::MEDIA_PLAYER_STATE_PLAYING;
     this->publish_state();
