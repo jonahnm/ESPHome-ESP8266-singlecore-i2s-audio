@@ -130,27 +130,27 @@ void I2SAudioMediaPlayer::stopPlaying() {
 
 void I2SAudioMediaPlayer::playaudio(const char* source)  {
     stopPlaying();
-   // ESP_LOGCONFIG(TAG, "Start Playing...");
+    ESP_LOGCONFIG(TAG, "Start Playing...");
     this->state = media_player::MEDIA_PLAYER_STATE_PLAYING;
     this->publish_state();
     file_http = new AudioFileSourceHTTPStream();
     if ( file_http->open(source)) {
         broadcastStatus("playing");
         updateLEDBrightness(10);
-       // ESP_LOGCONFIG(TAG, "url:");
+       ESP_LOGCONFIG(TAG, "url:");
        // ESP_LOGCONFIG(TAG, source);
         // dim while playing
         buff = new AudioFileSourceBuffer(file_http, preallocateBuffer, preallocateBufferSize);
         mp3 = new AudioGeneratorMP3();
         mp3->begin(buff, out);
     }else {
-        //  ESP_LOGCONFIG(TAG, "file_http failed");
+          ESP_LOGCONFIG(TAG, "file_http failed");
           stopPlaying();
     }
 }
 
 void I2SAudioMediaPlayer::setup() {
-//  ESP_LOGCONFIG(TAG, "Setting up Audio...");
+  ESP_LOGCONFIG(TAG, "Setting up Audio...");
 
 //  pinMode(LED1_Pin, OUTPUT); 
 //  pinMode(LED2_Pin, OUTPUT);
@@ -164,7 +164,7 @@ void I2SAudioMediaPlayer::setup() {
   //  }
   out->SetGain(volume_level);
   this->volume = volume_level;
- // ESP_LOGCONFIG(TAG, "Setuped");
+  ESP_LOGCONFIG(TAG, "Setuped");
   this->state = media_player::MEDIA_PLAYER_STATE_IDLE;
   this->publish_state();
 }
@@ -182,10 +182,10 @@ media_player::MediaPlayerTraits I2SAudioMediaPlayer::get_traits() {
 }
 
 void I2SAudioMediaPlayer::dump_config() {
-  //ESP_LOGCONFIG(TAG, "dump_config:OK");
+  ESP_LOGCONFIG(TAG, "dump_config:OK");
 
   if (this->is_failed()) {
-   // ESP_LOGCONFIG(TAG, "Audio failed to initialize!");
+    ESP_LOGCONFIG(TAG, "Audio failed to initialize!");
     return;
   }
 
