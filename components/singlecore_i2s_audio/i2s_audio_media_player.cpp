@@ -145,6 +145,7 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
         // dim while playing
         buff = new AudioFileSourceBuffer(file_http, preallocateBuffer, preallocateBufferSize);
         mp3 = new AudioGeneratorMP3();
+        ESP_LOGCONFIG(TAG,"Created MP3 generator");
         mp3->begin(buff, out);
     }else {
           ESP_LOGCONFIG(TAG, "file_http failed");
