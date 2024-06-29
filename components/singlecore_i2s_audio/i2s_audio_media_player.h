@@ -63,6 +63,7 @@ class I2SAudioMediaPlayer : public Component, public media_player::MediaPlayer {
   AudioOutputI2S *out = NULL;
   AudioGeneratorMP3 *mp3 = NULL;
   AudioGeneratorWAV *wav = NULL;
+  AudioGeneratorFLAC *flac = NULL;
   AudioFileSourceHTTPStream *file_http = NULL;
   AudioFileSourcePROGMEM *file_progmem = NULL;
   AudioFileSourceBuffer *buff = NULL;
