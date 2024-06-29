@@ -8,6 +8,7 @@
 #include <Arduino.h>
 #include "AudioGeneratorMP3.h"
 #include "AudioGeneratorWAV.h"
+#include "AudioGeneratorFLAC.h"
 #include "AudioFileSourceBuffer.h"
 #include "AudioFileSourcePROGMEM.h"
 #include "AudioFileSourceHTTPStream.h"
