@@ -94,9 +94,9 @@ void I2SAudioMediaPlayer::stop_() {
 
 void I2SAudioMediaPlayer::broadcastStatus(const char* msg) {
     std::string msg_cpp(msg);
-    if(msg_cpp == "paused") state = MEDIA_PLAYER_STATE_PAUSED;
-    if(msg_cpp == "playing") state = MEDIA_PLAYER_STATE_PLAYING;
-    if(msg_cpp == "idle") state = MEDIA_PLAYER_STATE_IDLE;
+    if(msg_cpp == "paused") state = esphome::media_player::MEDIA_PLAYER_STATE_PAUSED;
+    if(msg_cpp == "playing") state = esphome::media_player::MEDIA_PLAYER_STATE_PLAYING;
+    if(msg_cpp == "idle") state = esphome::media_player::MEDIA_PLAYER_STATE_IDLE;
 }
 
 void I2SAudioMediaPlayer::updateLEDBrightness(int brightness_percentage) {
