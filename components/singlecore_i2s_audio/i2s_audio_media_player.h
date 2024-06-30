@@ -49,7 +49,7 @@ class I2SAudioMediaPlayer : public Component, public media_player::MediaPlayer {
   
   char* playing_status = new char[10];
   float volume_level   = 0.8;
-  const int preallocateBufferSize = 30 * 1024;
+  const int preallocateBufferSize = 4 * 1024;
   void *preallocateBuffer = NULL;
   bool isPaused = false;
   void broadcastStatus(const char* msg);
