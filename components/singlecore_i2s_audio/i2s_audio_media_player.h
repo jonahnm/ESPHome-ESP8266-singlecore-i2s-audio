@@ -49,8 +49,10 @@ class I2SAudioMediaPlayer : public Component, public media_player::MediaPlayer {
   
   char* playing_status = new char[10];
   float volume_level   = 0.8;
-  const int preallocateBufferSize = 4 * 1024;
+  const int preallocateBufferSize = 16*1024;
+  const int preallocateCodecSize = 85332; // AAC+SBR codec max mem needed
   void *preallocateBuffer = NULL;
+  void *preallocateCodec = NULL;
   bool isPaused = false;
   void broadcastStatus(const char* msg);
   void updateLEDBrightness(int brightness_percentage);
