@@ -150,8 +150,8 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
     this->publish_state();
     file_http = new AudioFileSourceHTTPStream();
     std::string source_cpp(source);
-    std::string flac(".flac");
-    bool isFlac = source_cpp.find(flac) != std::string::npos;
+    std::string flac_str(".flac");
+    bool isFlac = source_cpp.find(flac_str) != std::string::npos;
     if ( file_http->open(source)) {
         broadcastStatus("playing");
         updateLEDBrightness(10);
