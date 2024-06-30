@@ -93,9 +93,10 @@ void I2SAudioMediaPlayer::stop_() {
 }
 
 void I2SAudioMediaPlayer::broadcastStatus(const char* msg) {
-  if ( !strcmp(playing_status, msg) == 0 ) {
-      strcpy(playing_status,msg);
-  }
+    std::string msg_cpp(msg);
+    if(msg_cpp == "paused") state = MEDIA_PLAYER_STATE_PAUSED;
+    if(msg_cpp == "playing") state = MEDIA_PLAYER_STATE_PLAYING;
+    if(msg_cpp == "idle") state = MEDIA_PLAYER_STATE_IDLE;
 }
 
 void I2SAudioMediaPlayer::updateLEDBrightness(int brightness_percentage) {
