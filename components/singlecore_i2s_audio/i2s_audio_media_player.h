@@ -4,6 +4,7 @@
 #include "esphome/core/component.h"
 #include "esphome/core/gpio.h"
 #include "esphome/core/helpers.h"
+#include <driver/i2s.h>
 
 #include <Arduino.h>
 #include "AudioGeneratorMP3.h"
