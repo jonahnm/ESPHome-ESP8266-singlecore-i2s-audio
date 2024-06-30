@@ -48,6 +48,16 @@ void I2SAudioMediaPlayer::control(const media_player::MediaPlayerCall &call) {
         this->unmute_();
         break;
       }
+      case media_player::MEDIA_PLAYER_COMMAND_PAUSE: {
+          isPaused = true;
+          broadcastStatus("paused");
+          break;
+      }
+      case media_player::MEDIA_PLAYER_COMMAND_PLAY: {
+          isPaused = false;
+          broadcastStatus("playing");
+          break;
+      }
     }
   }
   this->publish_state();
@@ -89,8 +99,7 @@ void I2SAudioMediaPlayer::broadcastStatus(const char* msg) {
 }
 
 void I2SAudioMediaPlayer::updateLEDBrightness(int brightness_percentage) {
-  analogWrite(LED1_Pin, (int) brightness_percentage * 255 / 100);
-  analogWrite(LED2_Pin, (int) 10 * 255 / 100);
+  return;
 }
 
 void I2SAudioMediaPlayer::stopPlaying() {
@@ -103,6 +112,11 @@ void I2SAudioMediaPlayer::stopPlaying() {
         wav->stop();
         delete wav;
         wav = NULL;
+    }
+    if (flac) {
+        flac->stop();
+        delete flac;
+        flac = NULL;
     }
     if (buff) {
         buff->close();
@@ -134,6 +148,9 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
     this->state = media_player::MEDIA_PLAYER_STATE_PLAYING;
     this->publish_state();
     file_http = new AudioFileSourceHTTPStream();
+    std::string source_cpp(source);
+    std::string flac(".flac");
+    bool isFlac = source_cpp.find(flac) != std::string::npos;
     if ( file_http->open(source)) {
         broadcastStatus("playing");
         updateLEDBrightness(10);
@@ -141,8 +158,13 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
         ESP_LOGCONFIG(TAG, source);
         // dim while playing
         buff = new AudioFileSourceBuffer(file_http, preallocateBuffer, preallocateBufferSize);
-        mp3 = new AudioGeneratorMP3();
-        mp3->begin(buff, out);
+        if(isFlac) {
+          flac = new AudioGeneratorFLAC();
+          flac->begin(buff, out);
+        } else {
+          mp3 = new AudioGeneratorMP3();
+          mp3->begin(buff, out);
+        }
     }else {
           ESP_LOGCONFIG(TAG, "file_http failed");
           stopPlaying();
@@ -171,13 +193,13 @@ void I2SAudioMediaPlayer::setup() {
 
 void I2SAudioMediaPlayer::loop() {
       
-  if (mp3   && !mp3->loop())          stopPlaying();
-  if (wav   && !wav->loop())          stopPlaying();
+  if (mp3   && !isPaused && !mp3->loop())          stopPlaying();
+  if (wav   && !isPaused && !wav->loop())          stopPlaying();
+  if(flac && !isPaused && !flac->loop()) stopPlaying();
 }
 
 media_player::MediaPlayerTraits I2SAudioMediaPlayer::get_traits() {
   auto traits = media_player::MediaPlayerTraits();
-  traits.set_supports_pause(false);
   return traits;
 }
 
