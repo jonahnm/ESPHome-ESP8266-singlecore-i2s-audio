@@ -166,7 +166,7 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
         ESP_LOGCONFIG(TAG, source_cpp.c_str());
         // dim while playing
         buff = new AudioFileSourceBuffer(file_http, preallocateBuffer, preallocateBufferSize);
-        mp3 = new AudioGeneratorMP3();
+        mp3 = new AudioGeneratorMP3(preallocateCodec,preallocateCodecSize);
         mp3->begin(buff, out);
     }else {
           ESP_LOGCONFIG(TAG, "file_http failed");
@@ -189,6 +189,8 @@ void I2SAudioMediaPlayer::setup() {
     }
   out->SetGain(volume_level);
   this->volume = volume_level;
+  preallocateBuffer = malloc(preallocateBufferSize);
+  preallocateCodec = malloc(preallocateCodecSize);
   ESP_LOGCONFIG(TAG, "Setuped");
   this->state = media_player::MEDIA_PLAYER_STATE_IDLE;
   this->publish_state();
