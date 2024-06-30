@@ -7,7 +7,13 @@ namespace esphome {
 namespace i2s_audio {
 
 static const char *const TAG = "audio";
-
+bool replace(std::string& str, const std::string& from, const std::string& to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
 void I2SAudioMediaPlayer::control(const media_player::MediaPlayerCall &call) {
   if (call.get_media_url().has_value()) {
     optional<std::string> current_url_ = call.get_media_url();
@@ -151,21 +157,17 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
     file_http = new AudioFileSourceHTTPStream();
     std::string source_cpp(source);
     std::string flac_str(".flac");
-    bool isFlac = source_cpp.find(flac_str) != std::string::npos;
-    if ( file_http->open(source)) {
+    std::string mp3_str(".mp3");
+    replace(source_cpp,mp3_str,flac_str);
+    if ( file_http->open(source_cpp.c_str())) {
         broadcastStatus("playing");
         updateLEDBrightness(10);
         ESP_LOGCONFIG(TAG, "url:");
-        ESP_LOGCONFIG(TAG, source);
+        ESP_LOGCONFIG(TAG, source_cpp.c_str());
         // dim while playing
         buff = new AudioFileSourceBuffer(file_http, preallocateBuffer, preallocateBufferSize);
-        if(isFlac) {
-          flac = new AudioGeneratorFLAC();
-          flac->begin(buff, out);
-        } else {
-          mp3 = new AudioGeneratorMP3();
-          mp3->begin(buff, out);
-        }
+        mp3 = new AudioGeneratorMP3();
+        mp3->begin(buff, out);
     }else {
           ESP_LOGCONFIG(TAG, "file_http failed");
           stopPlaying();
