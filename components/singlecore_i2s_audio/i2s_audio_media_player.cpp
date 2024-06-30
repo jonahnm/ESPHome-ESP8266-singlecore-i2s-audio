@@ -154,7 +154,7 @@ void I2SAudioMediaPlayer::playaudio(const char* source)  {
     ESP_LOGCONFIG(TAG, "Start Playing...");
     this->state = media_player::MEDIA_PLAYER_STATE_PLAYING;
     this->publish_state();
-    file_http = new AudioFileSourceICYStream();
+    file_http = new AudioFileSourceHTTPStream();
     std::string source_cpp(source);
     std::string flac_str(".flac");
     std::string mp3_str(".mp3");
