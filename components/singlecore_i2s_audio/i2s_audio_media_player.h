@@ -11,7 +11,7 @@
 #include "AudioGeneratorFLAC.h"
 #include "AudioFileSourceBuffer.h"
 #include "AudioFileSourcePROGMEM.h"
-#include "AudioFileSourceICYStream.h"
+#include "AudioFileSourceHTTPStream.h"
 #include "AudioOutputI2S.h"
 
 #include "esphome/core/log.h"
@@ -63,7 +63,7 @@ class I2SAudioMediaPlayer : public Component, public media_player::MediaPlayer {
   AudioGeneratorMP3 *mp3 = NULL;
   AudioGeneratorWAV *wav = NULL;
   AudioGeneratorFLAC *flac = NULL;
-  AudioFileSourceICYStream *file_http = NULL;
+  AudioFileSourceHTTPStream *file_http = NULL;
   AudioFileSourcePROGMEM *file_progmem = NULL;
   AudioFileSourceBuffer *buff = NULL;
 
